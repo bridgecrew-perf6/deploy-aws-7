@@ -39,4 +39,15 @@ public class CategoryServiceImp implements CategoryServiceInterface {
         Category entity = obj.orElseThrow(() -> new EntityNotFoundException("Entity not found"));
         return new CategoryDTO(entity);
     }
+
+    @Override
+    @Transactional
+    public CategoryDTO insert(CategoryDTO dto) {
+        Category entity = new Category();
+        entity.setName(dto.getName());
+        categoryRepository.save(entity);
+        return new CategoryDTO(entity);
+    }
+
+
 }
