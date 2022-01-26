@@ -13,4 +13,5 @@ public interface CategoryServiceInterface {
 
     CategoryDTO insert(CategoryDTO dto);
 
+    CategoryDTO update(Long id, CategoryDTO dto);
 }

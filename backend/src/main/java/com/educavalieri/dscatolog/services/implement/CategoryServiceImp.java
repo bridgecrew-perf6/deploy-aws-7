@@ -3,14 +3,14 @@ package com.educavalieri.dscatolog.services.implement;
 import com.educavalieri.dscatolog.dto.CategoryDTO;
 import com.educavalieri.dscatolog.entities.Category;
 import com.educavalieri.dscatolog.repositories.CategoryRepository;
-import com.educavalieri.dscatolog.services.exceptions.EntityNotFoundException;
+import com.educavalieri.dscatolog.services.exceptions.ResourceNotFoundException;
 import com.educavalieri.dscatolog.services.interfaces.CategoryServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
-
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -36,7 +36,7 @@ public class CategoryServiceImp implements CategoryServiceInterface {
     @Transactional
     public CategoryDTO findById(Long id) {
         Optional<Category> obj = categoryRepository.findById(id);
-        Category entity = obj.orElseThrow(() -> new EntityNotFoundException("Entity not found"));
+        Category entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
         return new CategoryDTO(entity);
     }
 
@@ -47,6 +47,19 @@ public class CategoryServiceImp implements CategoryServiceInterface {
         entity.setName(dto.getName());
         categoryRepository.save(entity);
         return new CategoryDTO(entity);
+    }
+
+    @Override
+    @Transactional
+    public CategoryDTO update(Long id, CategoryDTO dto) {
+        try {
+            Category entity = categoryRepository.findById(id).get();
+            entity.setName(dto.getName());
+            entity = categoryRepository.save(entity);
+            return new CategoryDTO(entity);
+        } catch (EntityNotFoundException e) {
+            throw new ResourceNotFoundException("ID not found" +id);
+        }
     }
 
 

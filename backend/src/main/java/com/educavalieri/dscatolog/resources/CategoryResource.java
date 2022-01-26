@@ -33,7 +33,7 @@ public class CategoryResource {
     }
 
     @RequestMapping(value = "save", method = RequestMethod.POST)
-    public ResponseEntity<CategoryDTO> insert (@RequestBody CategoryDTO dto){
+    public ResponseEntity<CategoryDTO> insert (@RequestBody CategoryDTO dto) {
         dto = categoryServiceImp.insert(dto);
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -43,6 +43,14 @@ public class CategoryResource {
         return ResponseEntity.created(uri).body(dto);
 
     }
+    @RequestMapping(value = "/put{id}", method = RequestMethod.PUT)
+    public ResponseEntity<CategoryDTO> update(@PathVariable Long id, @RequestBody CategoryDTO dto){
+        dto = categoryServiceImp.update(id, dto);
+        return ResponseEntity.ok().body(dto);
+
+    }
+
+
 
     @GetMapping("*")
     public String test(){
