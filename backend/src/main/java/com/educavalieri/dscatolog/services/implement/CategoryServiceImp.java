@@ -3,11 +3,17 @@ package com.educavalieri.dscatolog.services.implement;
 import com.educavalieri.dscatolog.dto.CategoryDTO;
 import com.educavalieri.dscatolog.entities.Category;
 import com.educavalieri.dscatolog.repositories.CategoryRepository;
+import com.educavalieri.dscatolog.services.exceptions.DataBaseException;
 import com.educavalieri.dscatolog.services.exceptions.ResourceNotFoundException;
 import com.educavalieri.dscatolog.services.interfaces.CategoryServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 
 import javax.persistence.EntityNotFoundException;
@@ -59,6 +65,17 @@ public class CategoryServiceImp implements CategoryServiceInterface {
             return new CategoryDTO(entity);
         } catch (EntityNotFoundException e) {
             throw new ResourceNotFoundException("ID not found" +id);
+        }
+    }
+
+    @Override
+    public void delete(Long id) {
+        try {
+            categoryRepository.deleteById(id);
+        } catch (EmptyResultDataAccessException e) {
+            throw new ResourceNotFoundException("Id not found" +id);
+        } catch (DataIntegrityViolationException e) {
+            throw new DataBaseException("Integrity violation");
         }
     }
 

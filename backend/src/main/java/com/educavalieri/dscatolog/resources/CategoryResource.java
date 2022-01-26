@@ -51,6 +51,12 @@ public class CategoryResource {
     }
 
 
+    @DeleteMapping(value = "/delete{id}")
+    public ResponseEntity<Void> delete(@PathVariable("id") Long id){
+        categoryServiceImp.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
 
     @GetMapping("*")
     public String test(){
