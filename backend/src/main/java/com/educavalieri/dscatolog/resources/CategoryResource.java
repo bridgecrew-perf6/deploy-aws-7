@@ -1,5 +1,6 @@
 package com.educavalieri.dscatolog.resources;
 
+import com.educavalieri.dscatolog.dto.CategoryDTO;
 import com.educavalieri.dscatolog.entities.Category;
 import com.educavalieri.dscatolog.services.implement.CategoryServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +20,9 @@ public class CategoryResource {
     private CategoryServiceImp categoryServiceImp;
 
     @GetMapping
-    public ResponseEntity<List<Category>> findAll(){
-        List<Category> list = categoryServiceImp.findAll();
+    public ResponseEntity<List<CategoryDTO>> findAll(){
+        List<CategoryDTO> list = categoryServiceImp.findAll();
         return ResponseEntity.ok().body(list);
-
     }
 
     @GetMapping("*")
