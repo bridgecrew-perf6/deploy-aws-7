@@ -8,4 +8,6 @@ import java.util.List;
 public interface CategoryServiceInterface {
 
     List<CategoryDTO> findAll();
+
+    CategoryDTO findById(Long id);
 }
