@@ -2,7 +2,9 @@ package com.educavalieri.dscatolog.services.implement;
 
 import com.educavalieri.dscatolog.dto.CategoryDTO;
 import com.educavalieri.dscatolog.dto.ProductDTO;
+import com.educavalieri.dscatolog.entities.Category;
 import com.educavalieri.dscatolog.entities.Product;
+import com.educavalieri.dscatolog.repositories.CategoryRepository;
 import com.educavalieri.dscatolog.repositories.ProductRepository;
 import com.educavalieri.dscatolog.services.exceptions.DataBaseException;
 import com.educavalieri.dscatolog.services.exceptions.ResourceNotFoundException;
@@ -26,6 +28,9 @@ public class ProductServiceIMP implements ProductServiceInterface {
     @Autowired
     private ProductRepository productRepository;
 
+    @Autowired
+    private CategoryRepository categoryRepository;
+
     @Override
     @Transactional(readOnly = true)
     public List<ProductDTO> findAll() {
@@ -48,13 +53,8 @@ public class ProductServiceIMP implements ProductServiceInterface {
     @Transactional
     public ProductDTO insert(ProductDTO dto) {
         Product entity = new Product();
-        entity.setName(dto.getName());
-        entity.setDate(dto.getDate());
-        entity.setDescription(dto.getDescription());
-        entity.setImgUrl(dto.getImgUrl());
-        entity.setPrice(dto.getPrice());
-        productRepository.save(entity);
-
+        copyDtoToEntity(dto, entity);
+        entity = productRepository.save(entity);
         return new ProductDTO(entity);
     }
 
@@ -63,17 +63,14 @@ public class ProductServiceIMP implements ProductServiceInterface {
     public ProductDTO update(Long id, ProductDTO dto) {
         try {
             Product entity = productRepository.findById(id).get();
-            entity.setName(dto.getName());
-            entity.setDate(dto.getDate());
-            entity.setDescription(dto.getDescription());
-            entity.setImgUrl(dto.getImgUrl());
-            entity.setPrice(dto.getPrice());
-            productRepository.save(entity);
+            System.out.println(entity);
+            copyDtoToEntity(dto, entity);
+            entity = productRepository.save(entity);
+            return new ProductDTO(entity);
         } catch (EntityNotFoundException e) {
             throw new ResourceNotFoundException("ID not found" +id);
         }
 
-        return null;
     }
 
     @Override
@@ -92,5 +89,19 @@ public class ProductServiceIMP implements ProductServiceInterface {
     public Page<ProductDTO> findAllPaged(PageRequest pageRequest) {
         Page<Product> entity = productRepository.findAll(pageRequest);
         return entity.map(x -> new ProductDTO(x));
+    }
+
+    private void copyDtoToEntity(ProductDTO dto, Product entity){
+        entity.setName(dto.getName());
+        entity.setDate(dto.getDate());
+        entity.setDescription(dto.getDescription());
+        entity.setImgUrl(dto.getImgUrl());
+        entity.setPrice(dto.getPrice());
+
+        entity.getCategories().clear();
+        for (CategoryDTO catDto : dto.getCategories()){
+            Category category = categoryRepository.getOne(catDto.getId());
+            entity.getCategories().add(category);
+        }
     }
 }

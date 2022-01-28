@@ -47,7 +47,7 @@ public class ProductResource {
         return ResponseEntity.created(uri).body(dto);
     }
 
-    @RequestMapping(value = "/put{id}")
+    @RequestMapping(value = "/put{id}", method = RequestMethod.PUT)
     public ResponseEntity<ProductDTO> update(@PathVariable("id") Long id, ProductDTO dto){
         dto = productServiceIMP.update(id, dto);
         return ResponseEntity.ok().body(dto);
