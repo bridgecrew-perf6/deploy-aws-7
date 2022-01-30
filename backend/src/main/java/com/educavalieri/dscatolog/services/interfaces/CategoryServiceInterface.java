@@ -1,9 +1,8 @@
 package com.educavalieri.dscatolog.services.interfaces;
 
 import com.educavalieri.dscatolog.dto.CategoryDTO;
-import com.educavalieri.dscatolog.entities.Category;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -19,5 +18,5 @@ public interface CategoryServiceInterface {
 
     void delete(Long id);
 
-    Page<CategoryDTO> findAllPaged(PageRequest pageRequest);
+    Page<CategoryDTO> findAllPaged(Pageable pageable);
 }

@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -86,8 +87,8 @@ public class ProductServiceIMP implements ProductServiceInterface {
     }
 
     @Override
-    public Page<ProductDTO> findAllPaged(PageRequest pageRequest) {
-        Page<Product> entity = productRepository.findAll(pageRequest);
+    public Page<ProductDTO> findAllPaged(Pageable pageable) {
+        Page<Product> entity = productRepository.findAll(pageable);
         return entity.map(x -> new ProductDTO(x));
     }
 
