@@ -11,6 +11,7 @@ import com.educavalieri.dscatolog.services.exceptions.ResourceNotFoundException;
 import com.educavalieri.dscatolog.services.interfaces.ProductServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -63,8 +64,7 @@ public class ProductServiceIMP implements ProductServiceInterface {
     @Transactional
     public ProductDTO update(Long id, ProductDTO dto) {
         try {
-            Product entity = productRepository.findById(id).get();
-            System.out.println(entity);
+            Product entity = productRepository.getOne(id);
             copyDtoToEntity(dto, entity);
             entity = productRepository.save(entity);
             return new ProductDTO(entity);
@@ -78,7 +78,7 @@ public class ProductServiceIMP implements ProductServiceInterface {
     public void delete(Long id) {
         try {
             productRepository.deleteById(id);
-        } catch (EntityNotFoundException e) {
+        } catch (EmptyResultDataAccessException e) {
             throw new ResourceNotFoundException("ID not found" +id);
         } catch (DataIntegrityViolationException e) {
             throw new DataBaseException("Integrity violation");
