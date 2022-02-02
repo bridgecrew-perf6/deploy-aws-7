@@ -52,6 +52,7 @@ public class ProductServiceTests {
        Category category = Factory.createCategory();
        productDTO = Factory.createProductDTO();
 
+        //quando o método é void (como o delete) iverter a ordem das ações
 
        doNothing().when(productRepository).deleteById(existId);
        doThrow(EmptyResultDataAccessException.class).when(productRepository).deleteById(nonExistId);
