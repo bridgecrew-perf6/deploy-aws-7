@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 
 @RestController
@@ -38,7 +39,7 @@ public class ProductResource {
     }
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public ResponseEntity<ProductDTO> save(@RequestBody ProductDTO dto){
+    public ResponseEntity<ProductDTO> save(@Valid @RequestBody ProductDTO dto){
         dto = productServiceIMP.insert(dto);
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -49,7 +50,7 @@ public class ProductResource {
     }
 
     @RequestMapping(value = "/put{id}", method = RequestMethod.PUT)
-    public ResponseEntity<ProductDTO> update(@PathVariable("id") Long id, @RequestBody ProductDTO dto){
+    public ResponseEntity<ProductDTO> update(@PathVariable("id") Long id, @Valid @RequestBody ProductDTO dto){
         dto = productServiceIMP.update(id, dto);
         return ResponseEntity.ok().body(dto);
     }

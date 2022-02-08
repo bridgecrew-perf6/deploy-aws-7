@@ -2,14 +2,19 @@ package com.educavalieri.dscatolog.dto;
 
 import com.educavalieri.dscatolog.entities.User;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 import java.util.HashSet;
 import java.util.Set;
 
 public class UserDTO {
 
     private Long id;
+
+    @NotEmpty(message = "mandatory field")
     private String firstName;
     private String lastName;
+    @Email(message = "insert a valid mail")
     private String email;
 
     Set<RoleDTO> roles = new HashSet<>();

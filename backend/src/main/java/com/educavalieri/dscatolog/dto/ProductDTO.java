@@ -7,6 +7,10 @@ import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.PastOrPresent;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -16,10 +20,17 @@ import java.util.Set;
 public class ProductDTO implements Serializable {
 
     private Long id;
+
+    @Size(min = 5, max = 60, message = "name must have 5 and 6 characters")
+    @NotBlank(message = "required field")
     private String name;
     private String description;
+
+    @Positive(message = "insert a positive price" )
     private Double price;
     private String imgUrl;
+
+    @PastOrPresent(message = "can't be in future date")
     private Instant date;
 
     private List<CategoryDTO> categories = new ArrayList<>();
