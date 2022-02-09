@@ -2,6 +2,7 @@ package com.educavalieri.dscatolog.resources;
 
 import com.educavalieri.dscatolog.dto.UserDTO;
 import com.educavalieri.dscatolog.dto.UserInsertDTO;
+import com.educavalieri.dscatolog.dto.UserUpdateDTO;
 import com.educavalieri.dscatolog.services.implement.UserServiceIMP;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -42,7 +43,7 @@ public class UserResource {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<UserDTO> update(@PathVariable("id") Long id, @Valid @RequestBody UserInsertDTO dto){
+    public ResponseEntity<UserDTO> update(@PathVariable("id") Long id, @Valid @RequestBody UserUpdateDTO dto){
         UserDTO newDto = userService.update(id, dto);
         return ResponseEntity.ok().body(dto);
     }

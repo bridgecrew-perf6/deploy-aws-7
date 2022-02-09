@@ -3,6 +3,7 @@ package com.educavalieri.dscatolog.services.implement;
 import com.educavalieri.dscatolog.dto.RoleDTO;
 import com.educavalieri.dscatolog.dto.UserDTO;
 import com.educavalieri.dscatolog.dto.UserInsertDTO;
+import com.educavalieri.dscatolog.dto.UserUpdateDTO;
 import com.educavalieri.dscatolog.entities.Role;
 import com.educavalieri.dscatolog.entities.User;
 import com.educavalieri.dscatolog.repositories.RoleRepository;
@@ -64,7 +65,7 @@ public class UserServiceIMP implements UserServiceInterface {
 
     @Override
     @Transactional
-    public UserDTO update(Long id, UserDTO dto) {
+    public UserDTO update(Long id, UserUpdateDTO dto) {
         try {
             User entity = userRepository.findById(id).get();
             constructEntity(entity, dto);

@@ -3,15 +3,16 @@ package com.educavalieri.dscatolog.dto;
 import com.educavalieri.dscatolog.entities.User;
 
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-public class UserDTO {
+public class UserDTO implements Serializable {
 
     private Long id;
 
-    @NotEmpty(message = "mandatory field")
+    @NotBlank(message = "mandatory field")
     private String firstName;
     private String lastName;
     @Email(message = "insert a valid mail")

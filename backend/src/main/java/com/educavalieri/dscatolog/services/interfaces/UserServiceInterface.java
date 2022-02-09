@@ -2,6 +2,7 @@ package com.educavalieri.dscatolog.services.interfaces;
 
 import com.educavalieri.dscatolog.dto.UserDTO;
 import com.educavalieri.dscatolog.dto.UserInsertDTO;
+import com.educavalieri.dscatolog.dto.UserUpdateDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -15,7 +16,7 @@ public interface UserServiceInterface {
 
     UserDTO insert(UserInsertDTO dto);
 
-    UserDTO update(Long id, UserDTO dto);
+    UserDTO update(Long id, UserUpdateDTO dto);
 
     void delete(Long id);
 
