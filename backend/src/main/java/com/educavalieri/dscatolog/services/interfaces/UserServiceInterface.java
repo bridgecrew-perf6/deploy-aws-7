@@ -1,9 +1,7 @@
 package com.educavalieri.dscatolog.services.interfaces;
 
-import com.educavalieri.dscatolog.dto.ProductDTO;
 import com.educavalieri.dscatolog.dto.UserDTO;
-import com.educavalieri.dscatolog.dto.UserInsertDto;
-import com.educavalieri.dscatolog.entities.User;
+import com.educavalieri.dscatolog.dto.UserInsertDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -15,7 +13,7 @@ public interface UserServiceInterface {
 
     UserDTO findById(Long id);
 
-    UserDTO insert(UserInsertDto dto);
+    UserDTO insert(UserInsertDTO dto);
 
     UserDTO update(Long id, UserDTO dto);
 

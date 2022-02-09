@@ -1,7 +1,7 @@
 package com.educavalieri.dscatolog.resources;
 
 import com.educavalieri.dscatolog.dto.UserDTO;
-import com.educavalieri.dscatolog.dto.UserInsertDto;
+import com.educavalieri.dscatolog.dto.UserInsertDTO;
 import com.educavalieri.dscatolog.services.implement.UserServiceIMP;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,7 +12,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
-import java.util.List;
 
 @RestController
 @RequestMapping("/users")
@@ -35,7 +34,7 @@ public class UserResource {
     }
 
     @PostMapping
-    public ResponseEntity<UserDTO> insert(@Valid @RequestBody UserInsertDto dto){
+    public ResponseEntity<UserDTO> insert(@Valid @RequestBody UserInsertDTO dto){
         UserDTO newDto = userService.insert(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(newDto.getId()).toUri();
@@ -43,7 +42,7 @@ public class UserResource {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<UserDTO> update(@PathVariable("id") Long id, @Valid @RequestBody UserInsertDto dto){
+    public ResponseEntity<UserDTO> update(@PathVariable("id") Long id, @Valid @RequestBody UserInsertDTO dto){
         UserDTO newDto = userService.update(id, dto);
         return ResponseEntity.ok().body(dto);
     }

@@ -1,10 +1,13 @@
 package com.educavalieri.dscatolog.dto;
 
-public class UserInsertDto extends UserDTO{
+import com.educavalieri.dscatolog.services.validation.UserInsertValid;
+
+@UserInsertValid
+public class UserInsertDTO extends UserDTO{
 
     private String password;
 
-    private UserInsertDto(){
+    private UserInsertDTO(){
         super();
     }
 

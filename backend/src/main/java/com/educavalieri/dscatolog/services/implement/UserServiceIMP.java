@@ -2,8 +2,7 @@ package com.educavalieri.dscatolog.services.implement;
 
 import com.educavalieri.dscatolog.dto.RoleDTO;
 import com.educavalieri.dscatolog.dto.UserDTO;
-import com.educavalieri.dscatolog.dto.UserInsertDto;
-import com.educavalieri.dscatolog.entities.Category;
+import com.educavalieri.dscatolog.dto.UserInsertDTO;
 import com.educavalieri.dscatolog.entities.Role;
 import com.educavalieri.dscatolog.entities.User;
 import com.educavalieri.dscatolog.repositories.RoleRepository;
@@ -15,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -56,7 +54,7 @@ public class UserServiceIMP implements UserServiceInterface {
 
     @Override
     @Transactional
-    public UserDTO insert(UserInsertDto dto) {
+    public UserDTO insert(UserInsertDTO dto) {
         User entity = new User();
         constructEntity(entity, dto);
         entity.setPassword(passwordEncoder.encode(dto.getPassword()));
