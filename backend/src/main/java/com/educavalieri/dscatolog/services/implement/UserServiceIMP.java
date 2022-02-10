@@ -11,11 +11,16 @@ import com.educavalieri.dscatolog.repositories.UserRepository;
 import com.educavalieri.dscatolog.services.exceptions.DataBaseException;
 import com.educavalieri.dscatolog.services.exceptions.ResourceNotFoundException;
 import com.educavalieri.dscatolog.services.interfaces.UserServiceInterface;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +31,9 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class UserServiceIMP implements UserServiceInterface {
+public class UserServiceIMP implements UserDetailsService, UserServiceInterface {
+
+    private static Logger logger = LoggerFactory.getLogger(UserServiceIMP.class);
 
     @Autowired
     private UserRepository userRepository;
@@ -107,6 +114,19 @@ public class UserServiceIMP implements UserServiceInterface {
 
     }
 
+    //-----------------------------------------------------------------------------------
+    //authentication zone:
 
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
+        User user = userRepository.findByEmail(username);
+        if (user == null){
+            logger.error("user not found " + username);
+            throw new UsernameNotFoundException("email not found");
+        }
+        logger.info("user found" + username);
+        return user;
+    }
 }
+
