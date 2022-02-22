@@ -23,5 +23,5 @@ public interface ProductServiceInterface {
 
     Page<ProductDTO> findAllPaged(Pageable pageable);
 
-    Page<ProductDTO> findAllPagedWithCategoryId(Pageable pageable, Long categoryID);
+    Page<ProductDTO> findAllPagedWithCategoryId(Pageable pageable, Long categoryID, String productName);
 }

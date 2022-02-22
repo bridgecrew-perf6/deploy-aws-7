@@ -94,9 +94,9 @@ public class ProductServiceIMP implements ProductServiceInterface {
 
     @Override
     @Transactional(readOnly = true)
-    public Page<ProductDTO> findAllPagedWithCategoryId(Pageable pageable, Long categoryID) {
+    public Page<ProductDTO> findAllPagedWithCategoryId(Pageable pageable, Long categoryID, String productName) {
         Category category = (categoryID == 0) ? null : categoryRepository.getOne(categoryID);
-        Page<Product> entity = productRepository.findAllWithCategoryId(pageable, category);
+        Page<Product> entity = productRepository.findAllWithCategoryId(pageable, category, productName);
         Page<ProductDTO> dto = entity.map(x -> new ProductDTO(x));
         return dto;
     }

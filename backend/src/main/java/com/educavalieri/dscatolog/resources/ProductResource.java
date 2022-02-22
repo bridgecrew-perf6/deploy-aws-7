@@ -35,8 +35,9 @@ public class ProductResource {
     @RequestMapping(value = "/categoryId", method = RequestMethod.GET)
     public ResponseEntity<Page<ProductDTO>> findAllWithCategoryId(
             @RequestParam(value = "categoryid", defaultValue = "0") Long categoryID,
+            @RequestParam(value = "productname", defaultValue = "") String productName,
             Pageable pageable){
-        Page<ProductDTO> list = productServiceIMP.findAllPagedWithCategoryId(pageable, categoryID);
+        Page<ProductDTO> list = productServiceIMP.findAllPagedWithCategoryId(pageable, categoryID, productName.trim()); //trim é para cortar espaços em branco
         return ResponseEntity.ok().body(list);
     }
 
