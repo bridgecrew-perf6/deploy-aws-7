@@ -98,7 +98,16 @@ public class ProductServiceIMP implements ProductServiceInterface {
     public Page<ProductDTO> findAllPagedWithCategoryId(Pageable pageable, Long categoryID, String productName) {
         List<Category> categories = (categoryID == 0) ? null : Arrays.asList(categoryRepository.getOne(categoryID));
         Page<Product> entity = productRepository.findAllWithCategoryId(pageable, categories, productName);
-        Page<ProductDTO> dto = entity.map(x -> new ProductDTO(x));
+        Page<ProductDTO> dto = entity.map(x -> new ProductDTO(x, x.getCategories()));
+        return dto;
+    }
+
+    @Override
+    public Page<ProductDTO> findProductWithCategory(Pageable pageable, Long categoryID, String productName) {
+        List<Category> categories = (categoryID == 0) ? null : Arrays.asList(categoryRepository.getOne(categoryID));
+        Page<Product> entity = productRepository.findAllWithCategoryId(pageable, categories, productName);
+        productRepository.findProductsWithCategories(entity.getContent());
+        Page<ProductDTO> dto = entity.map(x -> new ProductDTO(x, x.getCategories()));
         return dto;
     }
 

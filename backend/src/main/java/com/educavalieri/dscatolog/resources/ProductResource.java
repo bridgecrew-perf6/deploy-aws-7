@@ -41,6 +41,15 @@ public class ProductResource {
         return ResponseEntity.ok().body(list);
     }
 
+    @RequestMapping(value = "/withcategories", method = RequestMethod.GET)
+    public ResponseEntity<Page<ProductDTO>> findWithCategories(
+            @RequestParam(value = "categoryid", defaultValue = "0") Long categoryID,
+            @RequestParam(value = "productname", defaultValue = "") String productName,
+            Pageable pageable){
+        Page<ProductDTO> list = productServiceIMP.findProductWithCategory(pageable, categoryID, productName.trim()); //trim é para cortar espaços em branco
+        return ResponseEntity.ok().body(list);
+    }
+
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<ProductDTO> findById(@PathVariable("id") Long id){
         ProductDTO dto = productServiceIMP.findById(id);
