@@ -92,6 +92,15 @@ public class ProductServiceIMP implements ProductServiceInterface {
         return entity.map(x -> new ProductDTO(x));
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public Page<ProductDTO> findAllPagedWithCategoryId(Pageable pageable, Long categoryID) {
+        Category category = (categoryID == 0) ? null : categoryRepository.getOne(categoryID);
+        Page<Product> entity = productRepository.findAllWithCategoryId(pageable, category);
+        Page<ProductDTO> dto = entity.map(x -> new ProductDTO(x));
+        return dto;
+    }
+
     private void copyDtoToEntity(ProductDTO dto, Product entity){
         entity.setName(dto.getName());
         entity.setDate(dto.getDate());
@@ -103,6 +112,13 @@ public class ProductServiceIMP implements ProductServiceInterface {
         for (CategoryDTO catDto : dto.getCategories()){
             Category category = categoryRepository.getOne(catDto.getId());
             entity.getCategories().add(category);
+
+//        exemplo com expressão lambda
+//        dto.getCategories().forEach( x -> {
+//            Category category = categoryRepository.getById(x.getId());
+//            entity.getCategories().add(category);
+//        });
+
         }
     }
 }

@@ -22,4 +22,6 @@ public interface ProductServiceInterface {
     void delete(Long id);
 
     Page<ProductDTO> findAllPaged(Pageable pageable);
+
+    Page<ProductDTO> findAllPagedWithCategoryId(Pageable pageable, Long categoryID);
 }
