@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -95,8 +96,8 @@ public class ProductServiceIMP implements ProductServiceInterface {
     @Override
     @Transactional(readOnly = true)
     public Page<ProductDTO> findAllPagedWithCategoryId(Pageable pageable, Long categoryID, String productName) {
-        Category category = (categoryID == 0) ? null : categoryRepository.getOne(categoryID);
-        Page<Product> entity = productRepository.findAllWithCategoryId(pageable, category, productName);
+        List<Category> categories = (categoryID == 0) ? null : Arrays.asList(categoryRepository.getOne(categoryID));
+        Page<Product> entity = productRepository.findAllWithCategoryId(pageable, categories, productName);
         Page<ProductDTO> dto = entity.map(x -> new ProductDTO(x));
         return dto;
     }
