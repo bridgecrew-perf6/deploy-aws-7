@@ -23,6 +23,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.parameters.P;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import javax.persistence.EntityNotFoundException;
@@ -42,6 +43,7 @@ public class ProductServiceTests {
     ProductDTO dto = new ProductDTO();
     ProductDTO productDTO = new ProductDTO();
     private Category category;
+    private String productNameNull;
 
     @BeforeEach
     void setup() throws Exception {
@@ -51,7 +53,7 @@ public class ProductServiceTests {
        page = new PageImpl<>(List.of(product));
        Category category = Factory.createCategory();
        productDTO = Factory.createProductDTO();
-
+       productNameNull = "";
         //quando o método é void (como o delete) iverter a ordem das ações
 
        doNothing().when(productRepository).deleteById(existId);
@@ -66,6 +68,7 @@ public class ProductServiceTests {
        when(productRepository.getOne(nonExistId)).thenThrow(EntityNotFoundException.class);
        when(categoryRepository.getOne(existId)).thenReturn(category);
        when(categoryRepository.getOne(nonExistId)).thenThrow(ResourceNotFoundException.class);
+       when(productRepository.findAllWithCategoryId(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any())).thenReturn(page);
     }
 
     @InjectMocks
@@ -114,6 +117,18 @@ public class ProductServiceTests {
 
         Assertions.assertNotNull(result);
         Mockito.verify(productRepository, Mockito.times(1)).findAll(pageable);
+    }
+
+    @Test
+    public void findAllPagedWithCategoryIdShouldReturnPage(){
+
+
+        Pageable pageable = PageRequest.of(0, 12);
+        String productName = "";
+        Long categoryId = 0L;
+        Page<ProductDTO> result = productService.findAllPagedWithCategoryId(pageable, 0L, "");
+
+        Assertions.assertNotNull(result);
     }
 
     @Test
