@@ -1,5 +1,5 @@
 name: HelloWorld
-
+  
   on:
     push:
       branches:
@@ -8,6 +8,6 @@ name: HelloWorld
     build:
       runs-on: ubuntu-latest
 
-      steps:
-        - name: Printing Hello World
-          run: echo "Hello World!"
+    steps:
+      - name: Printing Hello World
+      run: echo "Hello World!"
