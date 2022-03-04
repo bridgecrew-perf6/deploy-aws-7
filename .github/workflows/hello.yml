@@ -1,4 +1,5 @@
 name: HelloWorld  
+<<<<<<< HEAD
 
 on:
   push:
@@ -11,3 +12,17 @@ jobs:
     steps:
     - name: Printing Hello World
       run: echo "Hello World!"
+=======
+  
+	on:
+    push:
+      branches:
+        - 'main'
+	jobs:
+			build:
+				runs-on: ubuntu-latest
+				
+				steps:
+					- name: Printing Hello World
+				run: echo "Hello World!"
+>>>>>>> 2db7554587d2ccc489635b8e06ac54c5abcc7c64
